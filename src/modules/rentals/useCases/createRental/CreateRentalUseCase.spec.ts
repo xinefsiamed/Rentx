@@ -2,11 +2,13 @@ import dayjs from 'dayjs';
 
 import { DayjsDateProvider } from '../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 import { AppError } from '../../../../shared/errors/AppError';
+import { CarsRespositoryInMemory } from '../../../cars/repositories/in-memory/CarsRepositoryInMemory';
 import { RentalsRepositoryInMemory } from '../../repositories/in-memory/RentalsRepositoryInMemory';
 import { CreateRentalUseCase } from './CreateRentalUseCase';
 
 let createRentalUseCase: CreateRentalUseCase;
 let rentalsRepositoryinMemory: RentalsRepositoryInMemory;
+let carsRepositoryInMemory: CarsRespositoryInMemory;
 let dayjsDateProvider: DayjsDateProvider;
 
 describe('Create rental', () => {
@@ -14,10 +16,12 @@ describe('Create rental', () => {
 
   beforeEach(() => {
     rentalsRepositoryinMemory = new RentalsRepositoryInMemory();
+    carsRepositoryInMemory = new CarsRespositoryInMemory();
     dayjsDateProvider = new DayjsDateProvider();
     createRentalUseCase = new CreateRentalUseCase(
       rentalsRepositoryinMemory,
-      dayjsDateProvider
+      dayjsDateProvider,
+      carsRepositoryInMemory
     );
   });
 
@@ -32,7 +36,7 @@ describe('Create rental', () => {
     expect(rental).toHaveProperty('start_date');
   });
 
-  it('should not be able to create a new rental if there is another open rental to the same user', async () => {
+  it('should not be able to create a new rental if there is another open rental to the same user', () => {
     expect(async () => {
       await createRentalUseCase.execute({
         user_id: '12345',
@@ -48,7 +52,7 @@ describe('Create rental', () => {
     }).rejects.toBeInstanceOf(AppError);
   });
 
-  it('should not be able to create a new rental if there is another open rental to the same car', async () => {
+  it('should not be able to create a new rental if there is another open rental to the same car', () => {
     expect(async () => {
       await createRentalUseCase.execute({
         user_id: '12345',
