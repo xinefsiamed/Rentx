@@ -32,11 +32,11 @@ class CreateRentalUseCase {
   }: IRequest): Promise<Rental> {
     const minimalRentalHour = 24;
     // Não deve ser possível cadastrar um novo aluguel caso já exista um aberto para o mesmo carro.
-    const carUnavailable = await this.rentalsRepository.findOpenRentalByCar(
+    const carIsAvailable = await this.rentalsRepository.findOpenRentalByCar(
       car_id
     );
 
-    if (carUnavailable) {
+    if (!carIsAvailable) {
       throw new AppError('Car is not available');
     }
 

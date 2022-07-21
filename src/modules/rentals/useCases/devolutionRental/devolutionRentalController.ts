@@ -1,9 +1,19 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 
-class devolutionRentalController {
-  async handle(req: Request, res: Response) {
-    // TODO
+import { DevolutionRentalUseCase } from './devolutionRentalUseCase';
+
+class DevolutionRentalController {
+  async handle(req: Request, res: Response): Promise<Response> {
+    const { id: user_id } = req.user;
+    const { id } = req.params;
+
+    const devolutionRentalUseCase = container.resolve(DevolutionRentalUseCase);
+
+    const rental = await devolutionRentalUseCase.execute({ id, user_id });
+
+    return res.status(200).json(rental);
   }
 }
 
-export { devolutionRentalController };
+export { DevolutionRentalController };
