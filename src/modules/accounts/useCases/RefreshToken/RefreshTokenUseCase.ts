@@ -12,7 +12,7 @@ interface IPayload {
 }
 
 @injectable()
-class RefresTokenUseCase {
+class RefreshTokenUseCase {
   constructor(
     @inject('UsersTokensRepository')
     private usersTokensRepository: IUsersTokensRepository,
@@ -57,4 +57,4 @@ class RefresTokenUseCase {
   }
 }
 
-export { RefresTokenUseCase };
+export { RefreshTokenUseCase };
