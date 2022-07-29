@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { send } from 'process';
 import { container } from 'tsyringe';
 
 import { SendForgotPasswordMailUseCase } from './SendForgotPasswordMailUseCase';
