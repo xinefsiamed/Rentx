@@ -37,6 +37,10 @@ class DayjsDateProvider implements IDateProvider {
   addMinutes(minutes: number): Date {
     return dayjs().add(minutes, 'minutes').toDate();
   }
+
+  compareIfBefore(start_date: Date, end_date: Date): boolean {
+    return dayjs(start_date).isBefore(end_date);
+  }
 }
 
 export { DayjsDateProvider };
